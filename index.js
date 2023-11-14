@@ -2,14 +2,18 @@ import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
 
+
+//express framework
 const app = express();
 const port = 3000;
 
-const db = new pg.Client({
-  user: "postgres",
+
+// postgres database
+const db = new pg.Client({ //Update this based on your configuration
+  user: "postgres", 
   host: "localhost",
   database: "world",
-  password: "10190628",
+  password: "",
   port: 5432,
 });
 
@@ -42,7 +46,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 let currentQuestion = {};
-// GET home page
+
+// Node - GET home page
 app.get("/", async (req, res) => {
   totalCorrect = 0;
   await nextQuestion();
@@ -50,7 +55,7 @@ app.get("/", async (req, res) => {
   res.render("index.ejs", { question: currentQuestion, flag: currentFlag });
 });
 
-// POST a new post
+// POST answer
 app.post("/submit", (req, res) => {
   let answer = req.body.answer.trim();
   let isCorrect = false;
